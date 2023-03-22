@@ -2,6 +2,7 @@
 
 import express from "express";
 import bodyParser from "body-parser";
+import usersRoutes from "./routes/users.js";
 
 const app = express();
 const PORT = 6001;
@@ -13,3 +14,5 @@ app.listen(PORT, () =>
 );
 
 app.get("/", (req, res) => res.send("Hello World"));
+
+app.use("/users", usersRoutes);
