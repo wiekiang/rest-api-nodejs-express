@@ -5,20 +5,14 @@ import { v4 as uuidv4 } from "uuid";
 
 const router = express.Router();
 
-const users = [
-    {
-        firstName: "John",
-        lastName: "Doe",
-        age: 25,
-    },
-    {
-        firstName: "Jane",
-        lastName: "Doe",
-        age: 29,
-    },
-];
+let users = [];
 
-/* CREATE */
+/* Read All Users */
+router.get("/", (req, res) => {
+    res.send(users);
+});
+
+/* Create User */
 router.post("/", (req, res) => {
     const user = req.body;
     users.push({ id: uuidv4(), ...user });
@@ -26,9 +20,18 @@ router.post("/", (req, res) => {
     res.send(`User with name ${user.firstName} added to database.`);
 });
 
-/* READ */
-router.get("/", (req, res) => {
-    res.send(users);
+/* Get User by ID */
+router.get("/:id", (req, res) => {
+    const { id } = req.params;
+    const foundUser = users.find((user) => user.id === id);
+    res.send(foundUser);
+});
+
+/* Delete User by ID */
+router.delete("/:id", (req, res) => {
+    const { id } = req.params;
+    users = users.filter((user) => user.id !== id);
+    res.send(`User with id ${id} is deleted.`);
 });
 
 export default router;
